@@ -1,5 +1,5 @@
-# WebApp
+# WebApp Program
 
-This is a test to check if renaming my main branch worked
+To check the current status of my website, go to:
 
-Test Test Test #2. Just deleted the unnecessary branch
+https://cis-linux2.temple.edu/tomcat10/sp25_3308_tun90969/

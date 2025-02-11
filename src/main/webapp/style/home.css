@@ -1,0 +1,61 @@
+/*
+.home{
+    
+    background-color: #31312F;
+    color: #FFFFFF;
+    font-family: sans-serif;
+    
+}
+*/
+
+.home .imageFlexContainer{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    align-items:center;
+    padding:1rem;
+}
+
+.home .mainImage { /* this selector applies to images within #content that use the mainImage class*/
+    width: 100%;
+    box-shadow: 0.4rem 0.4rem 0.4rem rgba(0,0,0,0.6); /* color is black which is 60% solid */
+}
+
+.home .flexImage{
+    width:30%;
+    border-radius: 0.5rem;
+    /*box-shadow: 0.4rem 0.4rem 0.4rem rgba(0, 0, 0, 0.6);*/
+}
+
+/*idk what this is for*/
+.home .hero {
+    margin-top: 8rem;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    line-height: 4.5rem;
+    font-weight: bold;
+    text-align:center;
+}
+
+@media (min-width: 800px) {
+    .home .imageFlexContainer{
+        display:flex;
+        gap:1rem;
+        justify-content:center;
+        align-items:center;
+        flex-wrap:wrap;
+        padding:1rem;
+        flex-direction:row;
+        display: flex;
+    }
+    .home .mainImage { /* this selector applies to images within #content that use the mainImage class*/
+        width: 40% !important;
+        border-radius: 0.5rem;
+        box-shadow: 0.4rem 0.4rem 0.4rem rgba(0,0,0,0.6); /* color is black which is 60% solid */
+    }
+    .home .flexImage{
+        width:10% !important;
+        border-radius: 0.5rem;
+        /*box-shadow: 0.4rem 0.4rem 0.4rem rgba(0, 0, 0, 0.6);*/
+    }
+}

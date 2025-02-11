@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!-- HTML comments like this... -->
+<html>
+
+<head>
+    <title>Title Nav Using Flexbox</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="style/main.css" rel="stylesheet" type="text/css" />
+    <link href="style/home.css" rel="stylesheet" type="text/css" />
+    <link href="style/usersComingSoon.css" rel="stylesheet" type="text/css" />
+    <link href="style/obj.css" rel="stylesheet" type="text/css" />
+    <link href="style/blog.css" rel="stylesheet" type="text/css" />
+    <link href="style/dropDown.css" rel="stylesheet" type="text/css" />
+    <link href="style/myDropDown.css" rel="stylesheet" type="text/css" />
+    <link href="style/review.css" rel="stylesheet" type="text/css"/><!-- Reviews Style Sheet -->
+
+
+    <!-- You need these two CDNs to use react, their version numbers must match -->
+    <!-- changed version on 10-20-2022 from 16.3.1 to 18 for react and react-dom -->
+    <script src='https://unpkg.com/react@18/umd/react.production.min.js'></script>
+    <script src='https://unpkg.com/react-dom@18/umd/react-dom.production.min.js'></script>
+
+    <!-- This CDN lets you use JSX (looks like HTML tags in JS) -->
+    <script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
+
+    <!-- This CDN lets you use React Routing -->
+    <script src='https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js'></script>
+
+    <style>
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <!-- Put JS reusable first (these are called by CGFs or by the page like the dropDown FW). -->
+    <script src="_JS_reusable/dropDownFW.js"></script>
+    <script src="_JS_reusable/MakeObj.js"></script>
+    <script src="_JS_reusable/MakeReview.js"></script> <!-- Review Reusable Function -->
+
+    <!-- JS Content Generating functions (these are called by the router). -->
+    <script src="_JS_CGF/UsersComingSoon.js"></script>
+    <script src="_JS_CGF/MakeObj_CGF.js"></script>
+    <script src="_JS_CGF/infoContent.js"></script>
+    <script src="_JS_CGF/MakeReview_CGF.js"></script> <!-- Review CGF -->
+
+    <!-- React reusable (these are called by CGFs). -->
+    <script type="text/babel" src="_React_reusable/ConvertEle.js"></script>
+
+    <!-- React Content Generating functions (these are called by the router) -->
+    <script type="text/babel" src="_React_CGF/HomeR.js"></script>
+    <script type="text/babel" src="_React_CGF/UsersComingSoonR.js"></script>
+    <script type="text/babel" src="_React_CGF/BlogR.js"></script>
+    <script type="text/babel" src="_React_CGF/Blog.js"></script>
+    <script type="text/babel" src="_React_CGF/Home.js"></script>
+
+    <!-- Any React scripts (which typically have JSX) needs script type="text/babel" -->
+
+    <script type="text/babel">
+
+        "use strict";
+
+        dropDownFW({
+            dropHeaderStyle: "dropHeader",
+            dropContentStyle: "dropContent",
+            showStyle: "show",
+            hideStyle: "hide"
+        });
+
+        const Link = ReactRouterDOM.Link;
+        const Route = ReactRouterDOM.Route;
+
+        const App = () => (
+            <ReactRouterDOM.HashRouter>
+
+                <div id="titleNav">
+                    <div id="pageTitle">Josh's Website</div>
+                    <div id="nav">
+                        <div class="dropDown">
+                            <Link to="/home">Home</Link>
+                        </div>
+                        <div class="dropDown">
+                            <div class="dropHeader">Account</div>
+                            <div class="dropContent">
+                                <Link to="/register">Register</Link> <br />
+                                <Link to="/login">Log In</Link> <br />
+                                <Link to="/logout">Log Out</Link> <br />
+                                <Link to="/profile">Get Profile</Link> <br />
+                            </div>
+                        </div>
+
+                        <div class="dropDown">
+                            <div class="dropHeader">Search</div>
+                            <div class="dropContent">
+                                <Link to="/users">Users (JS)</Link> <br />
+                                <Link to="/usersReact">Users (React)</Link> <br />
+                                <Link to="/myObj">My Objects</Link> <br />
+                                <Link to="/info">Information</Link> <br />
+                                <a target="_blank" href="docs/slootsky_database_la2.pdf">My DB PDF</a>
+                            </div>
+                        </div>
+                        
+                        <div class="dropDown">
+                            <div class="dropHeader">Homeworks</div>
+                            <div class="dropContent">
+                                <Link to="/reviews">JS Review Objects</Link> <br />
+                            </div>
+                        </div>
+
+                        <div class="dropDown">
+                            <Link to="/blog">Blog</Link>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content">
+                    <Route path="/" exact component={Home} />
+                    <Route path="/home" component={Home} /> 
+                    <Route path="/users" component={() => <ConvertEle ele={UsersComingSoon()} />} />
+                    <Route path="/usersReact" component={UsersComingSoonR} />
+                    <Route path="/myObj" component={() => <ConvertEle ele={MakeObj_CGF()} />} />
+                    <Route path="/blog" component={Blog} />
+                    <Route path="/info" component={() => <ConvertEle ele={infoContent()} />} />
+                    <Route path="/reviews" component={() => <ConvertEle ele={MakeReview_CGF()} />} />
+                </div>
+
+                <div id="footer">
+                    Joshua Slootsky Homework Submission
+                </div>
+
+            </ReactRouterDOM.HashRouter>
+        );
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+
+    </script>
+
+</body>
+
+</html>

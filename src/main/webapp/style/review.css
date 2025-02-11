@@ -1,0 +1,52 @@
+.flex{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.review {
+    flex: 1;
+    min-width: 275px;
+    max-width: 400px;
+    background-color:#DDDDDD; /* light grey */
+    padding:0.5rem;
+    margin:0.5rem;
+    margin-top: 2rem;
+    border-radius: 8px;
+    box-shadow: 3px 3px 3px #888888; /* darker grey */
+    text-align: center;
+    margin-bottom: 1rem;
+
+    display: flex; /* Makes sure children stretch */
+    flex-direction: column; /* Ensures vertical stacking */
+    justify-content: space-between; /* Pushes content to top and bottom */
+    height: 100%; /* Ensures full height */
+}
+
+.review-hover{
+    background-color: #f0f0f0;
+}
+
+.review img {
+    max-height: 300px;
+    height: auto; /* Maintains aspect ratio */
+    object-fit: contain; /* Ensures the whole image fits without being cropped */
+    border-radius: 4px; /* Optional: Adds rounded corners for a cleaner look */
+}
+
+.review #review-content {
+    margin-top: auto;
+}
+
+
+.review h3 {
+    color:olivedrab;
+    margin-bottom: 0.5rem;
+}
+
+.review h1{
+    color:rgb(78, 118, 157);
+    margin-bottom: 0.5rem;
+}
+

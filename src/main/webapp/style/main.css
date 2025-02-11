@@ -1,0 +1,103 @@
+/*  You can only use the "slash star ... star slash" style comment inside a style sheet */
+
+html, body {   /* Prevents tiny white border inside browser window. */
+    margin: 0rem; 
+    padding: 0rem; 
+}
+
+body { 
+    background-color: #FDF6E3;
+    color: #657B83;
+    font-family: sans-serif;
+}
+
+#titleNav { 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 0rem;
+    left: 0rem;
+    z-index: 1;
+    width: 100%;
+    font-family: serif; 
+    letter-spacing: 0.1rem;
+    color: #B58900;
+    background-color: #FDF6E3;
+    padding: 0.5rem;
+    
+}
+
+#pageTitle { 
+    font-size: 3rem;
+
+    text-align: center;
+    white-space: nowrap;
+}
+
+#nav { 
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: auto;
+    white-space: nowrap;
+}
+
+#nav a , a:visited{  
+    text-decoration: none;  
+    color: #657B83;
+}
+
+#nav a:hover {
+    color: goldenrod;
+    transition: color 0.3s ease;
+}
+
+#content {  
+    padding: 1rem;
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+}
+
+#footer { 
+    position: fixed;
+    bottom: 0rem; 
+    left: 0rem; 
+    z-index: 1;
+    background-color: #FDF6E3;
+    color: goldenrod; 
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;	 	 
+}
+
+#content a:hover{
+    text-shadow: 1px 1px 2px #B58900e6; /* Soft highlight effect */
+    transition: text-shadow 0.5s ease;
+}
+
+#content a, #content a:visited{
+    text-decoration:none;  /* Do not want links in "nav" to be underlined */
+    color: #B58900; /* light gray: to specify color for links, you have to style the "a" tag */
+}
+
+h3{
+    color: #ADD8E6;
+}
+
+@media (min-width: 600px) {
+    #titleNav {
+        flex-direction: row;
+        text-align: left;
+        align-items: center;
+        content: wrap;
+    }
+    #nav {
+        text-align: right;
+        margin-top: 0;
+    }
+    #content{
+        padding-top: 4rem;
+        padding-bottom: 2rem;
+    }
+}

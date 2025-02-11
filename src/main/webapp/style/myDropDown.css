@@ -1,0 +1,37 @@
+/*  This is an example of how the consumer (of the drop down framework which is dropDownFW.js plus
+    dropDown.css) can override default FW styling to make the nav bar look the way they want. 
+    In the HTML page, put the reference to YOUR drop down style sheet (e.g., myDropDown.css) 
+    AFTER the reference to the FW's CSS style sheet (e.g., dropDown.css). That way your styles 
+    will override the FW's. 
+*/
+
+/*
+.dropDown, .dropDown a { 
+    color: gold;
+}
+
+.dropDown .dropContent a { 
+    color: white;
+}
+
+.dropDown .dropContent {
+    background-color: white;
+}
+
+.dropContent{
+    color: black;
+}
+*/
+
+.dropDown{
+    color: #e08f16;
+    font-size: 1rem;
+}
+
+.dropDown .dropContent{
+    background-color: white;
+}
+
+.dropContent a {
+    color: #657B83 !important;
+}

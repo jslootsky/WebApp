@@ -133,6 +133,24 @@ function Blog(){
                 To see my <strong>Review API</strong> open up in a new tap, click
                 <a href = "/review/getReviewGameName" target="_blank"> here</a>
             </p>
+
+            <h4>Joshua Slootsky module 5</h4>
+
+            <p>
+                I wrote several server-side JDBC queries that access the SQL server on cis-linux 2
+            </p>
+
+            <p>
+                I feel that this module greatly broadened my knowledge of web app development and I now understand how web applications 
+                query servers and retrieve information. I've dealt with simple SQL queries in MySQL workbench but I did not know 
+                the extent of preparation required to have a webapp query a database. This material felt fairly straightforward to me as 
+                I understand how each piece of the query builds off of one another so the material was not that difficult.
+            </p>
+
+            <p>
+                I have also attached documentation for possible errors that may arise when working with databases in web applications
+                <a href = "docs\query_errors.pdf" target = "_blank"> here</a>.
+            </p>
         </div>
     );
 }

@@ -2,6 +2,7 @@ package dbUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+//class for converting java objects to json
 public class Json {
 
     public static String toJson(Object obj) {

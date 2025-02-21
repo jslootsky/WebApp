@@ -52,7 +52,7 @@ public class DbConn {
                 return;
             }
             properties.load(input);
-            properties.forEach((key, value) -> System.out.println(key + ": " + value));
+            //properties.forEach((key, value) -> System.out.println(key + ": " + value));
         }catch(Exception e){
             recordError("Problem loading properties file: " + e.getMessage());
         }

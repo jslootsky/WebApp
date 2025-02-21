@@ -129,9 +129,10 @@ function Blog(){
 
             <p>
                 To see my <strong>List Users API</strong> open up in a new tap, click
-                <a href = "webUser/getAll" target="_blank">here</a>
+                <a href = "webUser/getAll" target="_blank"> here</a><br></br>
+                To see my <strong>Review API</strong> open up in a new tap, click
+                <a href = "/review/getReviewGameName" target="_blank"> here</a>
             </p>
-
         </div>
     );
 }

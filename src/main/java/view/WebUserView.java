@@ -23,12 +23,19 @@ public class WebUserView {
         StringData sd = new StringData();
         
         try {
-            String sql = "SELECT web_user_id, user_email, user_password, user_image, membership_fee, birthday, "
-                    + "web_user.user_role_id, user_role_type "
-                    + "FROM web_user, user_role where web_user.user_role_id = user_role.user_role_id "
-                    + "ORDER BY web_user_id ";  // always order by something, not just random order.
+            // String sql = "SELECT web_user_id, user_email, user_password, user_image, membership_fee, birthday, "
+            //         + "web_user.user_role_id, user_role_type "
+            //         + "FROM web_user, user_role where web_user.user_role_id = user_role.user_role_id "
+            //         + "ORDER BY web_user_id ";  // always order by something, not just random order.
+                    
+            String sql2 =   "SELECT web_user_id, user_email, user_password, user_image, membership_fee, "+
+                            "birthday, user_role.user_role_id, user_role_type\n" + //
+
+                    "FROM user_role CROSS JOIN web_user\n" + //
+                    "ON user_role.user_role_id = web_user.user_role_id\n" + //
+                    "ORDER BY web_user_id;";
             
-            PreparedStatement stmt = dbc.getConn().prepareStatement(sql);
+            PreparedStatement stmt = dbc.getConn().prepareStatement(sql2);
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
@@ -46,7 +53,7 @@ public class WebUserView {
                 sd.userImage = Format.fmtString(results.getObject("user_image"));
                 sd.birthday = Format.fmtDate(results.getObject("birthday"));
                 sd.membershipFee = Format.fmtDollar(results.getObject("membership_fee"));
-                sd.userRoleId = Format.fmtInteger(results.getObject("web_user.user_role_id"));
+                sd.userRoleId = Format.fmtInteger(results.getObject("user_role.user_role_id"));
                 sd.userRoleType = Format.fmtString(results.getObject("user_role_type"));
                 sdl.add(sd);
             }

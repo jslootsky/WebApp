@@ -69,8 +69,15 @@ public class DbConn {
     }
 
     /* Returns database connection error message or "" if there is none. */
+
+    //adding "user friendly" error message
+    //Database unavailable - please try later or contact your administrator. 
+
+    //Message for administrator
+    //Error: [technical message from the DBMS]. 
     public String getErr() {
-        return this.errMsg;
+        return "Database unavailable - please try later or contact your administrator.\n" 
+        +"Error: "+ this.errMsg;
     }
 
     /**

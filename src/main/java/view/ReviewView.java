@@ -12,7 +12,7 @@ public class ReviewView {
         //empty array with empty errore
         StringDataList sdl = new StringDataList();
 
-        sdl.dbError = dbc.getErr();//returns "" if there is an error
+        sdl.dbError = dbc.getErr();//returns "" if there is no error
         if(sdl.dbError.length() > 0){//checks is dbError is not empty
             return sdl;
         }

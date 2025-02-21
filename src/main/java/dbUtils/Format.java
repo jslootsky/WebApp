@@ -80,4 +80,19 @@ public class Format {
         }
     } // formatString
 
+    public static String fmtDecimal(Object obj) {
+        // null gets converted to an empty string
+        if (obj == null) {
+            return "";
+        }
+        try {
+            BigDecimal bd = (BigDecimal) obj; // Cast the input object to BigDecimal
+            DecimalFormat decimalFormat = new DecimalFormat("###,###,###,##0.0"); // Define the desired format
+            return decimalFormat.format(bd); // Format the BigDecimal and return the result
+        } catch (Exception e) {
+            return "bad Decimal Amount in FormatUtils: " + obj.toString() + ". Error: " + e.getMessage(); // Handle any exceptions
+        }
+    }// formatDecimal
+    
+
 } // Format class

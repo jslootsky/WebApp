@@ -14,4 +14,5 @@ public class Controller {
     public String hw1ControllerGoodbye(){
         return "<h1>Goodbye!";
     }
+    
 }

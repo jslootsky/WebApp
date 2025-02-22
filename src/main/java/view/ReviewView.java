@@ -12,9 +12,16 @@ public class ReviewView {
         //empty array with empty errore
         StringDataList sdl = new StringDataList();
 
-        sdl.dbError = dbc.getErr();//returns "" if there is no error
-        if(sdl.dbError.length() > 0){//checks is dbError is not empty
-            return sdl;
+        //adding "user friendly" error message
+        //Database unavailable - please try later or contact your administrator. 
+
+        //Message for administrator
+        //Error: [technical message from the DBMS]. 
+
+        if (sdl.dbError.length() > 0) {
+            sdl.dbError = "Database unavailable - please try later or contact your administrator.\n" 
+                +"Error: " + dbc.getErr();
+            return sdl; // cannot proceed, db error (and that's been recorded in return object).
         }
 
         StringData sd = new StringData();

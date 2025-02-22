@@ -15,7 +15,16 @@ public class WebUserView {
         StringDataList sdl = new StringDataList(); 
 
         sdl.dbError = dbc.getErr(); // returns "" if connection is good, else db error msg.
+
+        //adding "user friendly" error message
+        //Database unavailable - please try later or contact your administrator. 
+
+        //Message for administrator
+        //Error: [technical message from the DBMS]. 
+
         if (sdl.dbError.length() > 0) {
+            sdl.dbError = "Database unavailable - please try later or contact your administrator.\n" 
+                +"Error: " + dbc.getErr();
             return sdl; // cannot proceed, db error (and that's been recorded in return object).
         }
         

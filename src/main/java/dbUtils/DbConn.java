@@ -14,7 +14,7 @@ public class DbConn {
     private Properties properties = new Properties();
 
     public DbConn() {
-
+        
         //loading credentials from a file rather than hardcoding them into the source code
         loadProperties();
         String hostname = properties.getProperty("hostname", "localhost");
@@ -23,13 +23,14 @@ public class DbConn {
         String username = properties.getProperty("username", "");
         String password = properties.getProperty("password", "");
 
+
         try {
             String DRIVER = "com.mysql.cj.jdbc.Driver";
             Class.forName(DRIVER);
             try {
                 // Assume you are running from home using tunneling...
                 String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?user=" + username + "&password=" + password;
-
+                
                 // unless you are working from temple (e.g., lab computer or published)
                 if (this.isTemple()) {
                     url = "jdbc:mysql://cis-linux2.temple.edu:3306/" + database + "?user=" + username + "&password=" + password;
@@ -70,14 +71,8 @@ public class DbConn {
 
     /* Returns database connection error message or "" if there is none. */
 
-    //adding "user friendly" error message
-    //Database unavailable - please try later or contact your administrator. 
-
-    //Message for administrator
-    //Error: [technical message from the DBMS]. 
     public String getErr() {
-        return "Database unavailable - please try later or contact your administrator.\n" 
-        +"Error: "+ this.errMsg;
+        return this.errMsg;
     }
 
     /**

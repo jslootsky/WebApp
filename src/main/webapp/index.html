@@ -16,6 +16,7 @@
     <link href="style/dropDown.css" rel="stylesheet" type="text/css" />
     <link href="style/myDropDown.css" rel="stylesheet" type="text/css" />
     <link href="style/review.css" rel="stylesheet" type="text/css"/><!-- Reviews Style Sheet -->
+    <link href="style/clickSort.css" rel="stylesheet" type="text/css" />
 
 
     <!-- You need these two CDNs to use react, their version numbers must match -->
@@ -40,6 +41,7 @@
     <script src="_JS_reusable/dropDownFW.js"></script>
     <script src="_JS_reusable/MakeObj.js"></script>
     <script src="_JS_reusable/MakeReview.js"></script> <!-- Review Reusable Function -->
+    <script src="_JS_reusable/ajax_alt.js"></script>
 
     <!-- JS Content Generating functions (these are called by the router). -->
     <script src="_JS_CGF/UsersComingSoon.js"></script>
@@ -49,11 +51,10 @@
 
     <!-- React reusable (these are called by CGFs). -->
     <script type="text/babel" src="_React_reusable/ConvertEle.js"></script>
+    <script type="text/babel" src="_React_reusable/AjaxUsers.js"></script>
 
     <!-- React Content Generating functions (these are called by the router) -->
-    <script type="text/babel" src="_React_CGF/HomeR.js"></script>
     <script type="text/babel" src="_React_CGF/UsersComingSoonR.js"></script>
-    <script type="text/babel" src="_React_CGF/BlogR.js"></script>
     <script type="text/babel" src="_React_CGF/Blog.js"></script>
     <script type="text/babel" src="_React_CGF/Home.js"></script>
 
@@ -95,6 +96,7 @@
                         <div class="dropDown">
                             <div class="dropHeader">Search</div>
                             <div class="dropContent">
+                                <Link to="/usersDb">Search - Users</Link> <br />
                                 <Link to="/users">Users (JS)</Link> <br />
                                 <Link to="/usersReact">Users (React)</Link> <br />
                                 <Link to="/myObj">My Objects</Link> <br />
@@ -125,6 +127,7 @@
                     <Route path="/blog" component={Blog} />
                     <Route path="/info" component={() => <ConvertEle ele={infoContent()} />} />
                     <Route path="/reviews" component={() => <ConvertEle ele={MakeReview_CGF()} />} />
+                    <Route path="/usersDb" component={() => AjaxUsers("webUser/getAll")} />
                 </div>
 
                 <div id="footer">

@@ -52,6 +52,7 @@
     <!-- React reusable (these are called by CGFs). -->
     <script type="text/babel" src="_React_reusable/ConvertEle.js"></script>
     <script type="text/babel" src="_React_reusable/AjaxUsers.js"></script>
+    <script type="text/babel" src="_React_reusable/AjaxReviews.js"></script>
 
     <!-- React Content Generating functions (these are called by the router) -->
     <script type="text/babel" src="_React_CGF/UsersComingSoonR.js"></script>
@@ -97,6 +98,7 @@
                             <div class="dropHeader">Search</div>
                             <div class="dropContent">
                                 <Link to="/usersDb">Search - Users</Link> <br />
+                                <Link to="/reviewsJson">Search - Reviews</Link> <br />
                                 <Link to="/users">Users (JS)</Link> <br />
                                 <Link to="/usersReact">Users (React)</Link> <br />
                                 <Link to="/myObj">My Objects</Link> <br />
@@ -128,6 +130,7 @@
                     <Route path="/info" component={() => <ConvertEle ele={infoContent()} />} />
                     <Route path="/reviews" component={() => <ConvertEle ele={MakeReview_CGF()} />} />
                     <Route path="/usersDb" component={() => AjaxUsers("webUser/getAll")} />
+                    <Route path="/reviewsJson" component={() => AjaxReviews("review/getReviewGameName")} />
                 </div>
 
                 <div id="footer">

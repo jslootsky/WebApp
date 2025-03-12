@@ -7,6 +7,11 @@ const AjaxReviews = (url) => {
 
     const [isLoading, setIsLoading] = React.useState(true);
 
+    const [displayedList, setDisplayedList] = React.useState([]);
+    //state to store the list that will be displayed after filtering/sorting
+    const [filterInput, setFilterInput] = React.useState("");
+    //state to hold the filter input value 
+
     React.useEffect(() => {
         ajax_alt(
             url, // URL for AJAX call to invoke
@@ -14,13 +19,14 @@ const AjaxReviews = (url) => {
             //"webUser/getAll", // URL for AJAX call to invoke
 
             // success function (anonymous)
-            function (dbList) {   // success function gets obj from ajax_alt
-                if (dbList.dbError.length > 0) {
-                    setError(dbList.dbError);
+            function (displayedList) {   // success function gets obj from ajax_alt
+                if (displayedList.dbError.length > 0) {
+                    setError(displayedList.dbError);
                 } else {
-                    console.log("in AjaxUsers, here is web user list (on the next line):");
-                    console.log(dbList.reviewList);
-                    setItems(dbList.reviewList);
+                    console.log("in AjaxReviews, here is review list (on the next line):");
+                    console.log(displayedList.reviewList);
+                    setItems(displayedList.reviewList);
+                    setDisplayedList(displayedList.reviewList);
                 }
                 setIsLoading(false); // set isLoading last to prevent premature rendering. 
             },
@@ -33,6 +39,29 @@ const AjaxReviews = (url) => {
         );
     },
         []);
+
+    const doFilter = (filterInputVal) => {
+        let newList = filterObjList(displayedList, filterInputVal);
+        console.log("function doFilter. filterInputVal is: " + filterInputVal +
+            ". See filtered list on next line:");
+        console.log(newList);
+        setDisplayedList(newList);
+    };
+
+    const clearFilter = () => {
+        setFilterInput("");
+        setDisplayedList(items);
+    }
+
+    function sortByProp(propName, sortType) {
+        // sort the user list based on property name and type
+        jsSort(displayedList, propName, sortType);
+        console.log("Sorted list is below");
+        console.log(displayedList);
+
+        let listCopy = JSON.parse(JSON.stringify(displayedList));
+        setDisplayedList(listCopy);
+    }
 
     if (isLoading) {
         console.log("Is Loading...");
@@ -50,27 +79,65 @@ const AjaxReviews = (url) => {
     return (
         <div className="clickSort">
             <h3>
-                Reviews List
+                Review List <br></br>
+                <input value={filterInput} onChange={(e) => {
+                    setFilterInput(e.target.value);
+                }}
+                    placeholder="Filter by game name"
+                />
+                &nbsp;
+                <button onClick={() => doFilter(filterInput)}>Search</button>
+                &nbsp;
+                <button onClick={clearFilter}>Clear</button>
             </h3>
             <table>
                 <thead>
                     <tr>
-                        <th>Review Id</th>
-                        <th>Web User Id</th>
-                        <th>Review Game Name</th>
+                        <th onClick={() => sortByProp("reviewId", "number")}>
+                            <img src="icons/sortUpDown16.png" alt="sort" /> Review Id
+                        </th>
+
+                        <th onClick={() => sortByProp("webUserId", "number")}>
+                            <img src="icons/sortUpDown16.png" alt="sort" /> Web User Id
+                        </th>
+
+                        <th onClick={() => sortByProp("reviewGameName", "text")}>
+                            <img src="icons/sortUpDown16.png" alt="sort" /> Email
+                        </th>
+
                         <th className="textAlignCenter">Game Image</th>
+
                         <th>Review</th>
-                        <th>Rating</th>
-                        <th className="textAlignRight">Price</th>
-                        <th className="textAlignRight">Playtime</th>
-                        <th>Genre</th>
-                        <th>Email</th>
+
+                        <th onClick={() => sortByProp("userRating", "number")}
+                            className="textAlignRight">
+                            <img src="icons/sortUpDown16.png" alt="sort" /> Rating
+                        </th>
+
+                        <th onClick={() => sortByProp("gamePrice", "number")}
+                            className="textAlignRight">
+                            <img src="icons/sortUpDown16.png" alt="sort" /> Price
+                        </th>
+
+                        <th onClick={() => sortByProp("userPlaytime", "number")}
+                            className="textAlignRight">
+                            <img src="icons/sortUpDown16.png" alt="sort" /> Playtime
+                        </th>
+
+                        <th onClick={() => sortByProp("gameGenre", "text")}>
+                            <img src="icons/sortUpDown16.png" alt="sort" /> Genre
+                        </th>
+
+                        <th onClick={() => sortByProp("userEmail", "text")}>
+                            <img src="icons/sortUpDown16.png" alt="sort" /> Email
+                        </th>
+
                         <th>Error</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        items.map((item, index) =>
+                        displayedList.map((item, index) =>
                             <tr key={item.reviewId}>
                                 <td>{item.reviewId}</td>
                                 <td>{item.webUserId}</td>

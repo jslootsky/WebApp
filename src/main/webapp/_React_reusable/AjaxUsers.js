@@ -33,14 +33,14 @@ const AjaxUsers = (url) => {
             //"webUser/getAll", // URL for AJAX call to invoke
 
             // success function (anonymous)
-            function (dbList) {   // success function gets obj from ajax_alt
-                if (dbList.dbError.length > 0) {
-                    setError(dbList.dbError);
+            function (displayedList) {   // success function gets obj from ajax_alt
+                if (displayedList.dbError.length > 0) {
+                    setError(displayedList.dbError);
                 } else {
                     console.log("in AjaxUsers, here is web user list (on the next line):");
-                    console.log(dbList.webUserList);
-                    setItems(dbList.webUserList);
-                    setDisplayedList(dbList.webUserList);
+                    console.log(displayedList.webUserList);
+                    setItems(displayedList.webUserList);
+                    setDisplayedList(displayedList.webUserList);
                     //initializes the displayed list with the full data
                 }
                 setIsLoading(false); // set isLoading last to prevent premature rendering. 
@@ -56,64 +56,18 @@ const AjaxUsers = (url) => {
         []);
 
     //filtering funciton to update displayedList based on filterInput
-    const doFilter = (filterVal) => {
-        const newList = items.filter(item =>
-            item.userEmail.toLowerCase().includes(filterVal.toLowerCase())
-        );
-
+    const doFilter = (filterInputVal) => {
+        let newList = filterObjList(displayedList, filterInputVal);
+        console.log("function doFilter. filterInputVal is: " + filterInputVal +
+            ". See filtered list on next line:");
+        console.log(newList);
         setDisplayedList(newList);
-    }
+    };
 
     const clearFilter = () => {
         setFilterInput("");
         setDisplayedList(items);
     }
-
-    const parseBirthday = (dateStr) => {
-        const parts = dateStr.split('/');
-        if (parts.length === 3) {
-            return new Date(parts[2], parts[0] - 1, parts[1]);
-        }
-
-        return new Date(dateStr);
-    }
-
-    //sorting function sorts the displayed lsit based on a property and type
-    /*
-    const sortByProp = (propName, sortType) => {
-        let sortedList = [...displayedList];
-
-        sortedList.sort((a, b) => {
-            let aVal = a[propName];
-            let bVal = b[propName];
-
-            if (aVal === undefined || bVal === undefined) return 0;
-
-            if (sortType === "number") {
-                aVal = aVal.toString().replace(/[^0-9.-]+/g, "");
-                bVal = bVal.toString().replace(/[^0-9.-]+/g, "");
-                return parseFloat(aVal) - parseFloat(bVal);
-            } else if (sortType === "date") {
-                sortedList.sort((a, b) => {
-                    let d1 = new Date(a[propName]);
-                    let d2 = new Date(b[propName]);
-                    return d1.getTime() - d2.getTime();
-                });
-            } else {
-                aVal = aVal.toString().toLowerCase();
-                bVal = bVal.toString().toLowerCase();
-                if (aVal < bVal) return -1;
-                if (aVal > bVal) return 1;
-                return 0;
-            }
-        });
-
-        console.log("Sorted list:");
-        console.log(sortedList);
-        //update the displayed list with the sorted data.
-        setDisplayedList(sortedList);
-    };
-    */
 
     function sortByProp(propName, sortType) {
         // sort the user list based on property name and type
@@ -121,10 +75,6 @@ const AjaxUsers = (url) => {
         console.log("Sorted list is below");
         console.log(displayedList);
 
-        // For state variables that are objects or arrays, you have to do 
-        // something like this or else React does not think that the state 
-        // variable (displayedList) has changed. Therefore, React will not re-render 
-        // the component.
         let listCopy = JSON.parse(JSON.stringify(displayedList)); 
         setDisplayedList(listCopy);
     }
@@ -175,7 +125,6 @@ const AjaxUsers = (url) => {
                         <th onClick={() => sortByProp("membershipFee", "number")}
                             className="textAlignRight">
                             <img src="icons/whiteSort.png" alt="sort" /> Membership Fee
-
                         </th>
 
                         <th onClick={() => sortByProp("userRoleType", "text")}>
@@ -183,6 +132,7 @@ const AjaxUsers = (url) => {
                         </th>
 
                         <th>Error</th>
+
                     </tr>
                 </thead>
                 <tbody>

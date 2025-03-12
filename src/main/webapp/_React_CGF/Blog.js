@@ -151,6 +151,15 @@ function Blog(){
                 I have also attached documentation for possible errors that may arise when working with databases in web applications
                 <a href = "docs\query_errors.pdf" target = "_blank"> here</a>.
             </p>
+
+            <h3>HW6 Notes</h3>
+
+            <p>
+                I found homework 6 to be fairly straightforward if not slightly time consuming since I had a few typos and bugs along the way. 
+                I also added a bunch of new entries into the database so it should have almost double the user base. I did most of the work 
+                in the lab activity for this module so it was basically copying over what I did from my lab while also 
+                implementing the filtering and sorting functionality given by the provided code.
+            </p>
         </div>
     );
 }

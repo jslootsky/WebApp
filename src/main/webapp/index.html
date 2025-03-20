@@ -17,6 +17,7 @@
     <link href="style/myDropDown.css" rel="stylesheet" type="text/css" />
     <link href="style/review.css" rel="stylesheet" type="text/css"/><!-- Reviews Style Sheet -->
     <link href="style/clickSort.css" rel="stylesheet" type="text/css" />
+    <link href="style/find.css" rel="stylesheet" type="text/css" />
 
 
     <!-- You need these two CDNs to use react, their version numbers must match -->
@@ -61,6 +62,7 @@
     <script type="text/babel" src="_React_CGF/UsersComingSoonR.js"></script>
     <script type="text/babel" src="_React_CGF/Blog.js"></script>
     <script type="text/babel" src="_React_CGF/Home.js"></script>
+    <script type="text/babel" src="_React_CGF/FindUserReact.js"></script>
 
     <!-- Any React scripts (which typically have JSX) needs script type="text/babel" -->
 
@@ -134,6 +136,7 @@
                     <Route path="/reviews" component={() => <ConvertEle ele={MakeReview_CGF()} />} />
                     <Route path="/usersDb" component={() => AjaxUsers("webUser/getAll")} />
                     <Route path="/reviewsJson" component={() => AjaxReviews("review/getReviewGameName")} />
+                    <Route path="/login" component={FindUserReact} />
                 </div>
 
                 <div id="footer">

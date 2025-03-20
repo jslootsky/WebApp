@@ -160,6 +160,17 @@ function Blog(){
                 in the lab activity for this module so it was basically copying over what I did from my lab while also 
                 implementing the filtering and sorting functionality given by the provided code.
             </p>
+
+            <h3>HW7 Notes</h3>
+
+            <p>
+                The usual trend when it comes to these types of assignments is that whenever I come back to it after not working on it for a little,
+                nothing makes sense. I've attempted to curb this by writing more comments explaining what I am doing but I think that will be a 
+                persistent issue. This is the main reason as to why this assignment took me longer than it should have. Remembering what I learned 
+                from the lab activity and applying it to the main homework took some carefuly study of the code but I eventually figured out
+                what I was doing. It was satisfying to be able to implement everything I wanted with the login, the session, and logging out, but 
+                it all came together in the end.
+            </p>
         </div>
     );
 }

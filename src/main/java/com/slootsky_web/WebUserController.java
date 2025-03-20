@@ -41,10 +41,10 @@ public class WebUserController {
     public String getById(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest request){
         HttpSession session = request.getSession();  
         StringData sd = new StringData();
-        if(email == null){
+        if(email == null || email.trim().isEmpty()){
             sd.errorMsg = "Error: email is null. Please enter an email";
             return Json.toJson(sd);
-        }else if(password == null){
+        }else if(password == null || password.trim().isEmpty()){
             sd.errorMsg = "Error: password is null. Please enter a password";
             return Json.toJson(sd);
         }else{

@@ -12,16 +12,16 @@ import view.WebUserView;
 @RestController
 public class WebUserController {
 
-    private final SlootskyWebApplication slootskyWebApplication;
+    // private final SlootskyWebApplication slootskyWebApplication;
 
-    private final ReviewController reviewController;
+    // private final ReviewController reviewController;
 
-    private final Controller controller;
+    // private final Controller controller;
 
     WebUserController(Controller controller, ReviewController reviewController, SlootskyWebApplication slootskyWebApplication) {
-        this.controller = controller;
-        this.reviewController = reviewController;
-        this.slootskyWebApplication = slootskyWebApplication;
+        // this.controller = controller;
+        // this.reviewController = reviewController;
+        // this.slootskyWebApplication = slootskyWebApplication;
     }
 
     @RequestMapping(value = "/webUser/getAll", produces = "application/json")
@@ -40,6 +40,7 @@ public class WebUserController {
     @RequestMapping(value = "/webUser/getByEmail", params = { "email", "password" }, produces = "application/json")
     public String getById(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest request){
         HttpSession session = request.getSession();  
+        System.out.println("getByEmail - Session ID: " + session.getId()); // Log session ID
         StringData sd = new StringData();
         if(email == null || email.trim().isEmpty()){
             sd.errorMsg = "Error: email is null. Please enter an email";
@@ -67,6 +68,7 @@ public class WebUserController {
         }else{
             try{
                 session.setAttribute("myUser", sd);
+                System.out.println("getByEmail - myUser set: " + sd); // Log the user data
             }catch(Exception e){
                 System.out.println("webUser/getByEmail controller error: " + e.getMessage());
                 sd.errorMsg += ". " + e.getMessage();
@@ -97,7 +99,9 @@ public class WebUserController {
     public String readController(HttpServletRequest request) {
 
         HttpSession session = request.getSession();
+        System.out.println("read - Session ID: " + session.getId()); // Log session ID
         StringData sd = new StringData();
+        System.out.println("read - myUser retrieved: " + sd); // Log the user data
 
         try {
             sd = (StringData) session.getAttribute("myUser");

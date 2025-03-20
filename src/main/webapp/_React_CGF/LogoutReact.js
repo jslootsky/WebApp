@@ -14,7 +14,7 @@ function LogoutReact() {
         console.log("Logout requested by user");
 
         ajax_alt(
-            "/webUser/invalidate",//url
+            "webUser/invalidate",//url
             function (obj) {
                 console.log("Invalidation success - see object on next line");
                 console.log(obj);
@@ -26,7 +26,7 @@ function LogoutReact() {
                 setIsLoading(false);
             },
             function (errorMsg) {
-                console.log("AJAX error. Message: " + errMsg);
+                console.log("AJAX error. Message: " + errorMsg);
                 setMsg("ajax failure: " + errorMsg);
                 setIsLoading(false);
             }

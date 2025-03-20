@@ -38,7 +38,7 @@ function FindUserReact() {
                 setIsLoading(false);
             },
             function (errorMsg) {
-                console.log("AJAX error. Message: " + errMsg);
+                console.log("AJAX error. Message: " + errorMsg);
                 setMsg("ajax failure: " + errorMsg);
                 setIsLoading(false);
             }

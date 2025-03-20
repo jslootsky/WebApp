@@ -11,7 +11,7 @@ function ViewProfileReact(){
     function view(){
         setIsLoading(true);
 
-        var url = "/webUser/read";
+        var url = "webUser/read";
         var defaultPfpUrl = "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small_2x/default-avatar-icon-of-social-media-user-vector.jpg";
 
         console.log("View will call ajax alt with this url: " + url);
@@ -23,7 +23,7 @@ function ViewProfileReact(){
             function(obj){
                 console.log("Ajax Success - got object (see next line)");
                 console.log(obj);
-                if (obj.errorMsg.length > 0) {
+                if (obj.errorMsg != "") {
                     setMsg(<strong><br/>{obj.errorMsg}</strong>);
                 } else {
                     setMsg(
@@ -42,7 +42,7 @@ function ViewProfileReact(){
                 setIsLoading(false);
             },
             function (errorMsg) {
-                console.log("AJAX error. Message: " + errMsg);
+                console.log("AJAX error. Message: " + errorMsg);
                 setMsg("ajax failure: " + errorMsg);
                 setIsLoading(false);
             }

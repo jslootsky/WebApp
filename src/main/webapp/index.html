@@ -63,6 +63,8 @@
     <script type="text/babel" src="_React_CGF/Blog.js"></script>
     <script type="text/babel" src="_React_CGF/Home.js"></script>
     <script type="text/babel" src="_React_CGF/FindUserReact.js"></script>
+    <script type="text/babel" src="_React_CGF/LogoutReact.js"></script>
+    <script type="text/babel" src="_React_CGF/ViewProfileReact.js"></script>
 
     <!-- Any React scripts (which typically have JSX) needs script type="text/babel" -->
 
@@ -137,6 +139,8 @@
                     <Route path="/usersDb" component={() => AjaxUsers("webUser/getAll")} />
                     <Route path="/reviewsJson" component={() => AjaxReviews("review/getReviewGameName")} />
                     <Route path="/login" component={FindUserReact} />
+                    <Route path="/logout" component={LogoutReact} />
+                    <Route path="/profile" component={ViewProfileReact} />
                 </div>
 
                 <div id="footer">

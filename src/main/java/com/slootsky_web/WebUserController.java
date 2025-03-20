@@ -37,23 +37,40 @@ public class WebUserController {
         return Json.toJson(list); // convert sdl obj to JSON Format and return that.
     }
 
-    @RequestMapping(value = "/webUser/getByEmail", params = { "email" }, produces = "application/json")
-    public String getById(@RequestParam("email") String email, HttpServletRequest request){
+    @RequestMapping(value = "/webUser/getByEmail", params = { "email", "password" }, produces = "application/json")
+    public String getById(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest request){
         HttpSession session = request.getSession();  
         StringData sd = new StringData();
         if(email == null){
             sd.errorMsg = "Error: email is null. Please enter an email";
+            return Json.toJson(sd);
+        }else if(password == null){
+            sd.errorMsg = "Error: password is null. Please enter a password";
+            return Json.toJson(sd);
         }else{
             DbConn dbc = new DbConn();
-            sd = DbMods.getByEmail(dbc, email);
+            sd = DbMods.getByEmail(dbc, email, password);
             dbc.close();
         }
 
-        try{
-            session.setAttribute("myUser", sd);
-        }catch(Exception e){
-            System.out.println("webUser/getByEmail controller error: " + e.getMessage());
-            sd.errorMsg += ". " + e.getMessage();
+        //checks if the errorMsg field is at all populated
+        if(sd.errorMsg.length() > 0){
+            String errorMsg = sd.errorMsg;
+            sd = new StringData(); //sets all fields to ""
+            try{
+                session.invalidate();
+                sd.errorMsg += errorMsg + "\nSession has been invalidated.";//appends notification that session has been invalidated
+            }catch (Exception e){
+                System.out.println("webUser/invalidate controller error: " + e.getMessage());
+                sd.errorMsg += ". " + e.getMessage();
+            }
+        }else{
+            try{
+                session.setAttribute("myUser", sd);
+            }catch(Exception e){
+                System.out.println("webUser/getByEmail controller error: " + e.getMessage());
+                sd.errorMsg += ". " + e.getMessage();
+            }
         }
 
         return Json.toJson(sd);
@@ -69,10 +86,29 @@ public class WebUserController {
             session.invalidate();
             sd.errorMsg = "Session has been invalidated";
         } catch (Exception e) {
-            System.out.println("session/invalidate controller error: " + e.getMessage());
+            System.out.println("webUser/invalidate controller error: " + e.getMessage());
             sd.errorMsg += ". " + e.getMessage();
         }
 
+        return Json.toJson(sd);
+    }
+
+    @RequestMapping(value = "/webUser/read", produces = "application/json")
+    public String readController(HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        StringData sd = new StringData();
+
+        try {
+            sd = (StringData) session.getAttribute("myUser");
+            if(sd == null){
+                sd = new StringData();
+                sd.errorMsg = "No user logged in";
+            }
+        } catch (Exception e) {
+            System.out.println("webUser/read controller error: " + e.getMessage());
+            sd.errorMsg += ". " + e.getMessage();
+        }
         return Json.toJson(sd);
     }
     

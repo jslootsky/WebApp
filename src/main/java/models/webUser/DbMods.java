@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 
 public class DbMods {
     
-    public static StringData getByEmail(DbConn dbc, String email){
+    public static StringData getByEmail(DbConn dbc, String email, String password){
         StringData sd = new StringData();  
         if(email == null){
             sd.errorMsg = "Cannot getByEmail (user): email is null";
@@ -26,14 +26,24 @@ public class DbMods {
             return sd;
         }
 
+        String stringPassword;
+        try{
+            stringPassword = String.valueOf(password);
+        }catch(Exception e){
+            sd.errorMsg = "Cannot getByEmail (user): URL parameter 'password' cant be converted to an String.";
+            return sd;
+        }
+
         try{
             String sql = "SELECT web_user_id, user_email, user_password, membership_fee, birthday, "
                     + "user_image, web_user.user_role_id, user_role_type "
                     + "FROM web_user, user_role WHERE web_user.user_role_id = user_role.user_role_id "
-                    + "AND user_email = ?";
+                    + "AND user_email = ?"
+                    + "AND user_password = ?";
             PreparedStatement stmt = dbc.getConn().prepareStatement(sql);
 
             stmt.setString(1, stringEmail);
+            stmt.setString(2, stringPassword);
 
             ResultSet results = stmt.executeQuery();
             if(results.next()){

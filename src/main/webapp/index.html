@@ -18,6 +18,7 @@
     <link href="style/review.css" rel="stylesheet" type="text/css"/><!-- Reviews Style Sheet -->
     <link href="style/clickSort.css" rel="stylesheet" type="text/css" />
     <link href="style/find.css" rel="stylesheet" type="text/css" />
+    <link href="style/insertArea.css" rel="stylesheet" type="text/css" />
 
 
     <!-- You need these two CDNs to use react, their version numbers must match -->
@@ -65,6 +66,7 @@
     <script type="text/babel" src="_React_CGF/FindUserReact.js"></script>
     <script type="text/babel" src="_React_CGF/LogoutReact.js"></script>
     <script type="text/babel" src="_React_CGF/ViewProfileReact.js"></script>
+    <script type="text/babel" src="_React_CGF/UserInsertOrUpdate.js"></script>
 
     <!-- Any React scripts (which typically have JSX) needs script type="text/babel" -->
 
@@ -141,6 +143,7 @@
                     <Route path="/login" component={FindUserReact} />
                     <Route path="/logout" component={LogoutReact} />
                     <Route path="/profile" component={ViewProfileReact} />
+                    <Route path="/register" component={UserInsertOrUpdate} />
                 </div>
 
                 <div id="footer">

@@ -1,14 +1,14 @@
 "use strict"
 
-function Blog(){
-    return(
-        <div className = "blog">
+function Blog() {
+    return (
+        <div className="blog">
             <h2>Blog</h2>
 
             <h3>Server Page</h3>
-            
+
             <p>
-                Click 
+                Click
                 <a href="https://cis-linux2.temple.edu/tomcat10/sp25_3308_tun90969/hello" target="_blank"> here </a>
                 to see my published server side page.
             </p>
@@ -51,7 +51,7 @@ function Blog(){
             </p>
 
             <p>
-                Click 
+                Click
                 <a href="docs\slootsky_database_la2.pdf" target="_blank"> here </a>
                 to view my database design document.
             </p>
@@ -74,7 +74,7 @@ function Blog(){
 
             <p>
                 This homework took me a while as I went on many different tangents learning about HTML and CSS.
-                I spent a long time fiddling with my homepage so I could get it to work the way I want it to. 
+                I spent a long time fiddling with my homepage so I could get it to work the way I want it to.
                 I am far from being finished and having it look how I want it to but I hope to continue adding to it in
                 the future.
             </p>
@@ -82,10 +82,10 @@ function Blog(){
             <h3>Database</h3>
 
             <p>
-                I have a good grasp on the basics of databases and database management. 
-                In community college, I had the opportunity to take a database administration class where 
-                I had the opportunity to learn database theory such as relational algebra as 
-                well as learning SQL near the end. It was an excellent opportunity to 
+                I have a good grasp on the basics of databases and database management.
+                In community college, I had the opportunity to take a database administration class where
+                I had the opportunity to learn database theory such as relational algebra as
+                well as learning SQL near the end. It was an excellent opportunity to
                 familiarize myself with the basics so that I could then go on to apply them
                 to other projects later into my learning.
             </p>
@@ -95,7 +95,7 @@ function Blog(){
             <p>
                 Converting from pure html/css took forever as I spent ages
                 trying to figure out how React.js works and how to effectively
-                split my main css file into smaller css files that apply 
+                split my main css file into smaller css files that apply
                 to individual CGFs. I have also completely altered the way
                 my website looks. I decided to go to a more pleasant beige
                 color scheme but I am still working on the nav bar to get
@@ -113,7 +113,7 @@ function Blog(){
                 For example, the assignment said to have the parameters for my make function be an image and then a separate list of images
                 alongside another descriptor. This confused me for a while and I at first thought that I was missing something but I just
                 ended up implementing it anyways. I figured that simply having the first image be the main image and setting the default
-                image to imgObjList[0].val would be simpler because if the user wanted to change the image and then change back to the 
+                image to imgObjList[0].val would be simpler because if the user wanted to change the image and then change back to the
                 default image, they wouldn't be able to unless the image address was placed as the first parameter and then one of the
                 images in the image list.
             </p>
@@ -129,9 +129,9 @@ function Blog(){
 
             <p>
                 To see my <strong>List Users API</strong> open up in a new tap, click
-                <a href = "webUser/getAll" target="_blank"> here</a><br></br>
+                <a href="webUser/getAll" target="_blank"> here</a><br></br>
                 To see my <strong>Review API</strong> open up in a new tap, click
-                <a href = "review/getReviewGameName" target="_blank"> here</a>
+                <a href="review/getReviewGameName" target="_blank"> here</a>
             </p>
 
             <h4>Joshua Slootsky module 5</h4>
@@ -141,23 +141,23 @@ function Blog(){
             </p>
 
             <p>
-                I feel that this module greatly broadened my knowledge of web app development and I now understand how web applications 
-                query servers and retrieve information. I've dealt with simple SQL queries in MySQL workbench but I did not know 
-                the extent of preparation required to have a webapp query a database. This material felt fairly straightforward to me as 
+                I feel that this module greatly broadened my knowledge of web app development and I now understand how web applications
+                query servers and retrieve information. I've dealt with simple SQL queries in MySQL workbench but I did not know
+                the extent of preparation required to have a webapp query a database. This material felt fairly straightforward to me as
                 I understand how each piece of the query builds off of one another so the material was not that difficult.
             </p>
 
             <p>
                 I have also attached documentation for possible errors that may arise when working with databases in web applications
-                <a href = "docs\query_errors.pdf" target = "_blank"> here</a>.
+                <a href="docs\query_errors.pdf" target="_blank"> here</a>.
             </p>
 
             <h3>HW6 Notes</h3>
 
             <p>
-                I found homework 6 to be fairly straightforward if not slightly time consuming since I had a few typos and bugs along the way. 
-                I also added a bunch of new entries into the database so it should have almost double the user base. I did most of the work 
-                in the lab activity for this module so it was basically copying over what I did from my lab while also 
+                I found homework 6 to be fairly straightforward if not slightly time consuming since I had a few typos and bugs along the way.
+                I also added a bunch of new entries into the database so it should have almost double the user base. I did most of the work
+                in the lab activity for this module so it was basically copying over what I did from my lab while also
                 implementing the filtering and sorting functionality given by the provided code.
             </p>
 
@@ -165,11 +165,24 @@ function Blog(){
 
             <p>
                 The usual trend when it comes to these types of assignments is that whenever I come back to it after not working on it for a little,
-                nothing makes sense. I've attempted to curb this by writing more comments explaining what I am doing but I think that will be a 
-                persistent issue. This is the main reason as to why this assignment took me longer than it should have. Remembering what I learned 
+                nothing makes sense. I've attempted to curb this by writing more comments explaining what I am doing but I think that will be a
+                persistent issue. This is the main reason as to why this assignment took me longer than it should have. Remembering what I learned
                 from the lab activity and applying it to the main homework took some carefuly study of the code but I eventually figured out
-                what I was doing. It was satisfying to be able to implement everything I wanted with the login, the session, and logging out, but 
+                what I was doing. It was satisfying to be able to implement everything I wanted with the login, the session, and logging out, but
                 it all came together in the end.
+            </p>
+
+            <h3>HW8 Notes</h3>
+
+            <p>
+                This assignment was a challenging but rewarding experience as I worked through the process of dynamically
+                populating the user email dropdown based on data retrieved from an API. Initially, I struggled with understanding
+                how the user role dropdown was implemented, and I spent a significant amount of time analyzing the existing code
+                to see how the logic could be adapted for the email selection. Relearning certain JavaScript and React concepts,
+                such as state management and asynchronous data fetching, was essential to making progress. After several attempts
+                and debugging sessions, I was finally able to implement the required API calls, correctly process the returned data,
+                and integrate it into the UI. The sense of accomplishment I felt after seeing the email dropdown populate correctly
+                made the effort worthwhile, and I now feel much more confident in my ability to handle similar challenges in the future.
             </p>
         </div>
     );

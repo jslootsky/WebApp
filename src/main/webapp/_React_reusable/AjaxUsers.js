@@ -89,12 +89,18 @@ const AjaxUsers = (url) => {
         return <div>Error: {error} </div>;
     }
 
+    function callInsert() {
+        window.location.hash = "#/register";
+    }
+
     console.log("items for UserTable on next line");
     console.log(items);
     return (
         <div className="clickSort">
             <h3>
-                Web User List <br></br>
+                Web User List&nbsp;
+                <img src="icons/insert.png" onClick={callInsert}/>
+                <br></br>
                 {/* Input field for filtering by email */}
                 <input value={filterInput} onChange={(e) => {
                     setFilterInput(e.target.value);

@@ -63,6 +63,10 @@ const AjaxReviews = (url) => {
         setDisplayedList(listCopy);
     }
 
+    function callInsert() {
+        window.location.hash = "#/reviewInsert";
+    }
+
     if (isLoading) {
         console.log("Is Loading...");
         return <div> Loading... </div>
@@ -79,7 +83,9 @@ const AjaxReviews = (url) => {
     return (
         <div className="clickSort">
             <h3>
-                Review List <br></br>
+                Review List &nbsp;
+                <img src="icons/insert.png" onClick={callInsert}/>
+                <br></br>
                 <input value={filterInput} onChange={(e) => {
                     setFilterInput(e.target.value);
                 }}

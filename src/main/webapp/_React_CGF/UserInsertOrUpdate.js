@@ -109,6 +109,7 @@ const UserInsertOrUpdate = (props) => {
     React.useEffect(
 
         () => {
+            
 
             console.log("AJAX call for role list");
             ajax_alt("role/getAll",

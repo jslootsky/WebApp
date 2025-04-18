@@ -23,6 +23,28 @@ public class ReviewController {
 
         return Json.toJson(list);
     }
+
+    
+    @RequestMapping(value = "/review/getById", params = {"reviewId"}, 
+        produces = "application/json")
+    public String getById(@RequestParam ("reviewId") String reviewId){
+        StringData sd = new StringData();
+        if(reviewId == null){
+            sd.errorMsg = "Error: URL must be review/getById/xx" + 
+            "where xx is the review_id of the desired review record.";
+        }else{
+            DbConn dbc = new DbConn();
+            sd.errorMsg = dbc.getErr();
+            if(sd.errorMsg.length() == 0){
+                System.out.println("*** Ready to call DbMods.getById");
+                sd = DbMods.getById(dbc, reviewId);
+            }
+            dbc.close();
+        }
+
+        return Json.toJson(sd);
+    }
+
     @RequestMapping(value = "/review/insert", params = { "jsonData" }, produces = "application/json")
     public String insert(@RequestParam("jsonData") String jsonInsertData) {
         StringData errorMsgs = new StringData();

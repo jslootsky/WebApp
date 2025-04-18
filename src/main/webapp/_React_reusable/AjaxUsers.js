@@ -150,7 +150,7 @@ const AjaxUsers = (url) => {
                                 <td>
                                     <a href={'#/userUpdate/:' + item.webUserId}><img src="icons/update.png" className="clickLink" /></a>
                                 </td>
-                                <td>{item.userEmail + ' (' + item.webUserId + ')'}</td>
+                                <td>{'(' + item.webUserId + ') ' + item.userEmail}</td>
                                 <td className="shadowImage textAlignCenter"><img src={item.userImage} /></td>
                                 <td className="textAlignCenter">{item.birthday}</td>
                                 <td className="textAlignRight">{item.membershipFee}</td>

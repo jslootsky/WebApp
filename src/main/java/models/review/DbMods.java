@@ -105,4 +105,62 @@ public class DbMods {
         return errorMsgs;
     } // insert
 
+    public static StringData update(StringData updateData, DbConn dbc) {
+        StringData errorMsgs = new StringData();
+        errorMsgs = validate(updateData);
+
+        errorMsgs.reviewId = Validate.integerMsg(updateData.reviewId, true);
+
+        if (errorMsgs.characterCount() > 0) {
+            errorMsgs.errorMsg = "Please try again";
+            return errorMsgs;
+        } else {
+            /*
+             * String sql =
+             * "SELECT review_id, web_user_id, review_game_name, game_image_url, user_review, user_rating, "
+             * +
+             * "game_price, user_playtime, game_genre, user_email "+
+             * "FROM review" +
+             * "ORDER BY web_user_id ";
+             */
+
+            /*
+             * String sql = "INSERT INTO review (web_user_id, review_game_name,
+             * game_image_url,
+             * user_review, user_rating, " +
+             * "game_price, user_playtime, game_genre) values (?,?,?,?,?,?,?,?)";
+             */
+            String sql = "UPDATE review SET web_user_id = ?, review_game_name = ?, game_image_url = ?, user_review = ?, user_rating = ?, "
+                    +   "game_price = ?, user_playtime = ?, game_genre = ? WHERE review_id = ?;";
+            
+            PrepStatement pStatement = new PrepStatement(dbc, sql);
+            pStatement.setInt(1, Validate.convertInteger(updateData.webUserId));
+            pStatement.setString(2, updateData.reviewGameName);
+            pStatement.setString(3, updateData.gameImageUrl);
+            pStatement.setString(4, updateData.userReview);
+            pStatement.setString(5, updateData.userRating);
+            pStatement.setBigDecimal(6, Validate.convertDecimal(updateData.gamePrice));
+            pStatement.setBigDecimal(7, Validate.convertDecimal(updateData.userPlaytime));
+            pStatement.setString(8, updateData.gameGenre);
+            pStatement.setInt(9, Validate.convertInteger(updateData.reviewId));
+
+            int numRows = pStatement.executeUpdate();
+
+            errorMsgs.errorMsg = pStatement.getErrorMsg();
+            if(errorMsgs.errorMsg.length() == 0){
+                if(numRows == 1){
+                    errorMsgs.errorMsg = "";
+                }else{
+                    errorMsgs.errorMsg = numRows + " records were inserted when exactly 1 was expected.";
+                }
+            }else if (errorMsgs.errorMsg.contains("foreign key")) {
+                errorMsgs.errorMsg = "Invalid Web User Id - " + errorMsgs.errorMsg;
+            } else if (errorMsgs.errorMsg.contains("Duplicate entry")) {
+                errorMsgs.errorMsg = "Only one review per web user allowed - " + errorMsgs.errorMsg;
+            }
+        }
+
+        return errorMsgs;
+    }//update
+
 }

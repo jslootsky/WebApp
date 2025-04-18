@@ -75,7 +75,7 @@ const AjaxUsers = (url) => {
         console.log("Sorted list is below");
         console.log(displayedList);
 
-        let listCopy = JSON.parse(JSON.stringify(displayedList)); 
+        let listCopy = JSON.parse(JSON.stringify(displayedList));
         setDisplayedList(listCopy);
     }
 
@@ -99,7 +99,7 @@ const AjaxUsers = (url) => {
         <div className="clickSort">
             <h3>
                 Web User List&nbsp;
-                <img src="icons/insert.png" onClick={callInsert}/>
+                <img src="icons/insert.png" onClick={callInsert} />
                 <br></br>
                 {/* Input field for filtering by email */}
                 <input value={filterInput} onChange={(e) => {
@@ -117,6 +117,8 @@ const AjaxUsers = (url) => {
             <table>
                 <thead>
                     <tr>
+                        <th></th> {/* column for the update button */}
+
                         <th onClick={() => sortByProp("userEmail", "text")}>
                             <img src="icons/sortUpDown16.png" alt="sort" /> Email
                         </th>
@@ -145,7 +147,10 @@ const AjaxUsers = (url) => {
                     {
                         displayedList.map((item, index) =>
                             <tr key={item.webUserId}>
-                                <td>{item.userEmail}</td>
+                                <td>
+                                    <a href={'#/userUpdate/:' + item.webUserId}><img src="icons/update.png" className="clickLink" /></a>
+                                </td>
+                                <td>{item.userEmail + ' (' + item.webUserId + ')'}</td>
                                 <td className="shadowImage textAlignCenter"><img src={item.userImage} /></td>
                                 <td className="textAlignCenter">{item.birthday}</td>
                                 <td className="textAlignRight">{item.membershipFee}</td>

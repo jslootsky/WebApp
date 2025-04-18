@@ -12,13 +12,13 @@ const UserInsertOrUpdate = (props) => {
     var id = "";
     var url = props.location.pathname;
     console.log("url that invoked UserInsertOrUpdate is " + url);
-    if (url.search(":") > -1) {//if contains :, then update operation
+    if (url.search(":") > -1) {
         const url_list = url.split(":");
         id = url_list[url_list.length - 1];
         console.log("to update id " + id);
         action = "update";
     } else {
-        console.log("to insert");//default insert function
+        console.log("to insert");
     }
 
     // Set initial values of state variables and receive (from React) a setter function for each one.
@@ -60,12 +60,27 @@ const UserInsertOrUpdate = (props) => {
         }
     );
 
+    // We have three possible ajax calls and we want to track each one independently
+    // to know if they are in progress or done. If anything is in progress, we 
+    // just put up a "...Loading..." UI to avoid complications trying to render 
+    // something that's not ready yet. 
 
-    // By having this boolean state variable, we avoid rendering the component 
-    // before we are ready to do so. 
-    const [isLoading, setIsLoading] = React.useState(true);
+    // The first ajax call gets the Role list so we can build a role <select> tag. 
+    const [isLoadingRoleList, setIsLoadingRoleList] = React.useState(true);
+
+    // Then, if it's update (not insert), we need an ajax call to read the user 
+    // record to prepopulate the Data Entry UI. 
+    const [isLoadingUser, setIsLoadingUser] = React.useState(true);
+
+    // We do the above two ajax calls (user and role list) in parallel and track
+    // each one's completion using it's own boolean. 
+
+    // This boolean tracks whether or not we have invoked the insert/update save 
+    // Web API (and are awaiting its result).   
+    const [isLoadingSaveResponse, setIsLoadingSaveResponse] = React.useState(false);
 
     const encodeUserInput = () => {
+        console.log("encoding User input, userRole id is " + userData.userRoleId);
         var userInputObj = {
             "webUserId": userData.webUserId,
             "userEmail": userData.userEmail,
@@ -106,79 +121,64 @@ const UserInsertOrUpdate = (props) => {
 
     // This code should execute just once at initial page render because 
     // the array of watch elements (second parameter to useEffect) is empty.
-    React.useEffect(
+    React.useEffect(() => {
 
-        () => {
-            
+        console.log("AJAX call for role list");
+        ajax_alt("role/getAll",
 
-            console.log("AJAX call for role list");
-            ajax_alt("role/getAll",
+            function (obj) { // success function. obj holds role list from AJAX call
 
-                function (obj) { // obj holds role list from AJAX call
-                    console.log("role/getAll Ajax success");
-                    if (obj.dbError.length > 0) {  // db error trying to read role list
-                        setErrorObj(setProp(errorObj, "userRoleId", obj.dbError));
-                    } else {
+                console.log("role/getAll Ajax success");
 
-                        // role fields (from role/getAll): userRoleId, userRoleType. 
-                        // sort alphabetically by role type (not by id)
-                        obj.roleList.sort(function (a, b) {
-                            if (a.userRoleType > b.userRoleType) {
-                                return 1
-                            } else {
-                                return -1;
-                            }
-                            return 0;
-                        });
-                        console.log('sorted role list on next line');
-                        console.log(obj.roleList);
-                        setRoleList(obj.roleList);
 
-                        // UserData.userRoleId gets set whenever the user clicks on the role pick list, 
-                        // but we need to set that field (to the id of the top role showing in the pick list) 
-                        // so that if the user doesn't click the role pick list and then clicks save, things 
-                        // will work. 
-                        setUserData(setProp(userData, "userRoleId", obj.roleList[0].userRoleId)); // FIX
-                        console.log("set initial role id for web_user to be " + obj.roleList[0].userRoleId);
+                if (obj.dbError.length > 0) {  // db error trying to read role list
+                    //setProp = (obj, propName, propValue)
+                    setErrorObj(setProp(errorObj, "userRoleId", obj.dbError));
+                    //setRoleError(obj.dbError);
+                } else {
+                    setRoleList(obj.roleList);
+                }
+                setIsLoadingRoleList(false);
+            },
+            function (msg) { // Failur function. msg is AJAX Error Msg.
+                // setRoleError(msg);
+                setErrorObj(setProp(errorObj, "errorMsg", msg));
+                setIsLoadingRoleList(false);
+            }
+        );
 
-                        if (action === "update") { //this is update, not insert, get webUser by the id
-                            console.log("Now getting webUser record " + id + " for the update");
-                            ajax_alt("webUser/getById?userId=" + id,
-                                function (obj) {
-                                    if (obj.errorMsg.length > 0) { // obj.errorMsg holds error, e.g., db error
-                                        console.log("DB error trying to get the webUser record for udpate");
-                                        setErrorObj(setProp(errorObj, "errorMsg", obj.errorMsg));
-                                        //setProp = (obj, propName, propValue)
-
-                                    } else { // obj holds the webUser record of the given id
-                                        console.log("got the web user record for update (on next line)");
-                                        console.log(obj);
-                                        setUserData(obj); // prepopulate user data since this is update.
-                                    }
-                                },
-                                function (ajaxErrorMsg) { // AJAX Error Msg from trying to read the webUser to be updated.
-                                    setErrorObj(setProp(errorObj, "errorMsg", ajaxErrorMsg));
-                                }
-                            );
-                        }
-
+        if (action === "update") { //this is update, not insert, get webUser by the id
+            console.log("Now getting webUser record " + id + " for the update");
+            ajax_alt("webUser/getById?userId=" + id,
+                function (obj) {
+                    if (obj.errorMsg.length > 0) { // obj.errorMsg holds error, e.g., db error
+                        console.log("DB error trying to get the webUser record for udpate");
+                        setErrorObj(setProp(errorObj, "errorMsg", obj.errorMsg));
+                        //setProp = (obj, propName, propValue)
+                    } else { // obj holds the webUser record of the given id
+                        console.log("got the web user record for update (on next line)");
+                        console.log(obj);
+                        setUserData(obj); // prepopulate user data since this is update.
                     }
+                    setIsLoadingUser(false);
                 },
-                function (ajaxErrorMsg) { // AJAX Error Msg from trying to read the role list.
-                    // setRoleError(msg);
-                    setErrorObj(setProp(errorObj, "errorMsg", ajaxErrorMsg));
+                function (msg) { // AJAX Error Msg from trying to read the webUser to be updated.
+                    setErrorObj(setProp(errorObj, "errorMsg", msg));
+                    setIsLoadingUser(false);
                 }
             );
-            setIsLoading(false);
-        }, []);
+        } else {
+            setIsLoadingUser(false); // for insert, we do not have to pre-load the user
+        }
+    }, []);
 
     const validate = () => {
+        setIsLoadingSaveResponse(true);
+        // In this function, we just change the value of state variable submitCount 
+        // so that the React.useEffect (that's watching for changes in submitCount)
+        // will run, making the AJAX call.  
         console.log("Validate, should kick off AJAX call");
         // action was set to insert or update above (must match web API @RequestMapping). 
-        console.log("Here is the user data that will be sent to the insert/update API");
-        console.log(userData);
-
-        setIsLoading(true);
         ajax_alt("webUser/" + action + "?jsonData=" + encodeUserInput(),
 
             function (obj) { // obj holds field level error messages
@@ -191,17 +191,17 @@ const UserInsertOrUpdate = (props) => {
                 }
 
                 setErrorObj(obj); // show the field level error messages (will all be "" if record was inserted)
-                setIsLoading(false);
+                setIsLoadingSaveResponse(false);
             },
-            function (ajaxErrorMsg) { // AJAX error msg trying to call the insert or update API
-                setErrorObj(setProp(errorObj, "errorMsg", ajaxErrorMsg));
-                setIsLoading(false);
+            function (msg) { // AJAX error msg trying to call the insert or update API
+                setFormMsg(msg);
+                setIsLoadingSaveResponse(false);
             }
         );
     };
 
-    if (isLoading) {
-        return <div> ... Loading ... </div>;
+    if (isLoadingRoleList || isLoadingUser || isLoadingSaveResponse) {
+        return <div>... Loading ... </div>;
     }
 
     return (

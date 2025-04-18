@@ -53,5 +53,32 @@ public class ReviewController {
 
         return Json.toJson(errorMsgs);
     }
+
+    @RequestMapping(value = "/review/update", params = {"jsonData"}, produces = "application/json")
+    public String update(@RequestParam("jsonData") String jsonInsertData){
+        StringData errorData = new StringData();
+
+        if((jsonInsertData == null) || jsonInsertData.length() == 0){
+            errorData.errorMsg = "Cannot update. No review data was provided in JSON format";
+        }else{
+            System.out.println("review data for update (JSON): " + jsonInsertData);
+            try{
+                ObjectMapper mapper = new ObjectMapper();
+                StringData updateData = mapper.readValue(jsonInsertData, StringData.class);
+                System.out.println("review data for update (java obj): " + updateData.toString());
+
+                DbConn dbc = new DbConn();
+                errorData = DbMods.update(updateData, dbc);
+                dbc.close();
+            }catch(Exception e){
+                String msg = "Unexpected error in controller for 'review/insert'... " +
+                        e.getMessage();
+                System.out.println(msg);
+                errorData.errorMsg = msg;
+            }
+        }
+
+        return Json.toJson(errorData);
+    }
     
 }

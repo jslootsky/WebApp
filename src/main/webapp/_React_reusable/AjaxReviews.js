@@ -1,4 +1,7 @@
+"use strict"
+
 const AjaxReviews = (url) => {
+
     console.log("AjaxReviews running");
 
     const [items, setItems] = React.useState([]);
@@ -84,7 +87,7 @@ const AjaxReviews = (url) => {
         <div className="clickSort">
             <h3>
                 Review List &nbsp;
-                <img src="icons/insert.png" onClick={callInsert}/>
+                <img src="icons/insert.png" onClick={callInsert} />
                 <br></br>
                 <input value={filterInput} onChange={(e) => {
                     setFilterInput(e.target.value);
@@ -99,6 +102,8 @@ const AjaxReviews = (url) => {
             <table>
                 <thead>
                     <tr>
+                        <th></th> {/* column for the update button */}
+
                         <th onClick={() => sortByProp("reviewId", "number")}>
                             <img src="icons/sortUpDown16.png" alt="sort" /> Review Id
                         </th>
@@ -145,6 +150,9 @@ const AjaxReviews = (url) => {
                     {
                         displayedList.map((item, index) =>
                             <tr key={item.reviewId}>
+                                <td>
+                                    <a href={'#/reviewUpdate/:' + item.reviewId}><img src="icons/update.png" className="clickLink" /></a>
+                                </td>
                                 <td>{item.reviewId}</td>
                                 <td>{item.webUserId}</td>
                                 <td>{item.reviewGameName}</td>

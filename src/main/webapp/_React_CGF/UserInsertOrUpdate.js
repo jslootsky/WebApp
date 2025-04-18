@@ -1,4 +1,4 @@
-"use strict"; // not sure if this is needed in react...
+"use strict";
 
 const UserInsertOrUpdate = (props) => {
 

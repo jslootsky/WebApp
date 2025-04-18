@@ -184,6 +184,14 @@ function Blog() {
                 and integrate it into the UI. The sense of accomplishment I felt after seeing the email dropdown populate correctly
                 made the effort worthwhile, and I now feel much more confident in my ability to handle similar challenges in the future.
             </p>
+
+            <h3>HW9 Notes</h3>
+
+            <p>
+                This assignment was incredibly straightforward as most of the work and infrastructure was already done in the lab activity
+                and previous homework. Adjusting the ReviewInsertOrUpdate.js file to work with the update API was as simple as changing and adding
+                a few lines as, again, most of the work was already done. Overall a fairly straightforward and simple assignment.
+            </p>
         </div>
     );
 }

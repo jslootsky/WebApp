@@ -22,25 +22,42 @@ const AjaxUsers = (url) => {
 
     //user delete helper function
     const handleDelete = (userId) => {
-        const ok = window.confirm('Are you sure you want to delete user ' + userId + "?");
-        if (!ok) return;
-
+        //fetch the preview count
         ajax_alt(
-            `webUser/delete?userId=${encodeURIComponent(userId)}`,
-            (res) => {
-                if (res.errorMsg) {
-                    //if error returned, set error
-                    setError(res.errorMsg);
-                } else {
-                    //else remove record
-                    const filtered = items.filter(u => u.webUserId !== userId);
-                    setItems(filtered);
-                    setDisplayedList(filtered);
+            `/webUser/deletePreview?userId=${encodeURIComponent(userId)}`,
+            (preview) => {
+                if (preview.errorMsg) {
+                    setError(preview.errorMsg);
+                    return;
                 }
+
+                const n = preview.numReviewsToBeDeleted;
+                const confirmMsg = n > 0
+                    ? `User ${userId} has ${n} review${n > 1 ? "s" : ""}. Deleting will remove them all. Proceed?`
+                    : `Really delete user ${userId}?`;
+
+                if (!window.confirm(confirmMsg)) return;
+
+                //ctually delete
+                ajax_alt(
+                    `/webUser/delete?userId=${encodeURIComponent(userId)}`,
+                    (res) => {
+                        if (res.errorMsg) {
+                            setError(res.errorMsg);
+                        } else {
+                            //filter out the deleted user
+                            const updated = items.filter(u => u.webUserId !== userId);
+                            setItems(updated);
+                            setDisplayedList(updated);
+                        }
+                    },
+                    (msg) => setError(msg)
+                );
             },
             (msg) => setError(msg)
         );
     };
+
 
     // useEffect 2nd parameter is an array of elements that 
     // (if any of those state variables change) should trigger the function specified 

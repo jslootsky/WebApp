@@ -13,6 +13,8 @@ public class StringData {
 
     public String errorMsg = ""; // not actually in the database, used by the app
                                  // to convey success or failure.
+    
+    public int numReviewsToBeDeleted = 0; //how many child reviews are expected to be lost in case of a web user deletion
 
     public StringData() {
     }

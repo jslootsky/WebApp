@@ -1,5 +1,8 @@
 package com.slootsky_web;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -196,12 +199,12 @@ public class WebUserController {
                 System.out.println("*** Ready to call DbMods.getById");
                 sd = DbMods.getById(dbc, userId);
             }
-            dbc.close(); 
+            dbc.close();
         }
         return Json.toJson(sd);
     }
 
-    @RequestMapping(value = "/webUser/delete", params = {"userId" }, produces = "application/json")
+    @RequestMapping(value = "/webUser/delete", params = { "userId" }, produces = "application/json")
     public String delete(@RequestParam("userId") String deleteUserId) {
         StringData sd = new StringData();
         if (deleteUserId == null) {
@@ -210,8 +213,42 @@ public class WebUserController {
         } else {
             DbConn dbc = new DbConn();
             sd = DbMods.delete(dbc, deleteUserId);
-            dbc.close(); 
+            dbc.close();
         }
+        return Json.toJson(sd);
+    }
+
+    @RequestMapping(value = "/webUser/deletePreview", params = { "userId" }, produces = "application/json")
+    public String deletePreview(@RequestParam("userId") String userId) {
+        StringData sd = new StringData();
+
+        if (userId == null) {
+            sd.errorMsg = "Error: URL must be webUser/deletePreview?userId=xx, where xx is the user’s ID.";
+            return Json.toJson(sd);
+        }
+
+        DbConn dbc = new DbConn();
+
+        sd.errorMsg = dbc.getErr();
+        if (sd.errorMsg.length() > 0) {
+            dbc.close();
+            return Json.toJson(sd);
+        }
+
+        try (
+                PreparedStatement countStmt = dbc.getConn()
+                        .prepareStatement("SELECT COUNT(*) FROM review WHERE web_user_id = ?");) {
+            countStmt.setString(1, userId);
+            try (ResultSet rs = countStmt.executeQuery()) {
+                if (rs.next()) {
+                    sd.numReviewsToBeDeleted = rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            sd.errorMsg = "Exception in deletePreview: " + e.getMessage();
+        }
+
+        dbc.close();
         return Json.toJson(sd);
     }
 

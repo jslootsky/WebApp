@@ -38,7 +38,7 @@ const AjaxUsers = (url) => {
 
                 if (!window.confirm(confirmMsg)) return;
 
-                //ctually delete
+                //actually delete
                 ajax_alt(
                     `/webUser/delete?userId=${encodeURIComponent(userId)}`,
                     (res) => {

@@ -14,7 +14,7 @@ import view.ReviewView;
 public class ReviewController {
 
     @RequestMapping(value = "/review/getReviewGameName", produces = "application/json")
-    public String allUsers(){
+    public String allUsers() {
         StringDataList list = new StringDataList();
         DbConn dbc = new DbConn();
         list = ReviewView.getReviewGameName(dbc);
@@ -24,18 +24,16 @@ public class ReviewController {
         return Json.toJson(list);
     }
 
-    
-    @RequestMapping(value = "/review/getById", params = {"reviewId"}, 
-        produces = "application/json")
-    public String getById(@RequestParam ("reviewId") String reviewId){
+    @RequestMapping(value = "/review/getById", params = { "reviewId" }, produces = "application/json")
+    public String getById(@RequestParam("reviewId") String reviewId) {
         StringData sd = new StringData();
-        if(reviewId == null){
-            sd.errorMsg = "Error: URL must be review/getById/xx" + 
-            "where xx is the review_id of the desired review record.";
-        }else{
+        if (reviewId == null) {
+            sd.errorMsg = "Error: URL must be review/getById/xx" +
+                    "where xx is the review_id of the desired review record.";
+        } else {
             DbConn dbc = new DbConn();
             sd.errorMsg = dbc.getErr();
-            if(sd.errorMsg.length() == 0){
+            if (sd.errorMsg.length() == 0) {
                 System.out.println("*** Ready to call DbMods.getById");
                 sd = DbMods.getById(dbc, reviewId);
             }
@@ -53,7 +51,7 @@ public class ReviewController {
             errorMsgs.errorMsg = "Cannot insert. No user data was provided in JSON format";
         } else {
             System.out.println("user data for insert (JSON): " + jsonInsertData);
-            try{
+            try {
                 ObjectMapper mapper = new ObjectMapper();
                 StringData insertData = mapper.readValue(jsonInsertData, StringData.class);
                 System.out.println("user data for insert (java obj): " + insertData.toString());
@@ -64,9 +62,9 @@ public class ReviewController {
                     errorMsgs = DbMods.insert(insertData, dbc);
                 }
                 dbc.close();
-            }catch(Exception e){
-                String msg = "Could not convert jsonData to model.review.StringData obj: "+
-                jsonInsertData+ " - or other error in controller for 'user/insert': " +
+            } catch (Exception e) {
+                String msg = "Could not convert jsonData to model.review.StringData obj: " +
+                        jsonInsertData + " - or other error in controller for 'user/insert': " +
                         e.getMessage();
                 System.out.println(msg);
                 errorMsgs.errorMsg += ". " + msg;
@@ -76,15 +74,15 @@ public class ReviewController {
         return Json.toJson(errorMsgs);
     }
 
-    @RequestMapping(value = "/review/update", params = {"jsonData"}, produces = "application/json")
-    public String update(@RequestParam("jsonData") String jsonInsertData){
+    @RequestMapping(value = "/review/update", params = { "jsonData" }, produces = "application/json")
+    public String update(@RequestParam("jsonData") String jsonInsertData) {
         StringData errorData = new StringData();
 
-        if((jsonInsertData == null) || jsonInsertData.length() == 0){
+        if ((jsonInsertData == null) || jsonInsertData.length() == 0) {
             errorData.errorMsg = "Cannot update. No review data was provided in JSON format";
-        }else{
+        } else {
             System.out.println("review data for update (JSON): " + jsonInsertData);
-            try{
+            try {
                 ObjectMapper mapper = new ObjectMapper();
                 StringData updateData = mapper.readValue(jsonInsertData, StringData.class);
                 System.out.println("review data for update (java obj): " + updateData.toString());
@@ -92,7 +90,7 @@ public class ReviewController {
                 DbConn dbc = new DbConn();
                 errorData = DbMods.update(updateData, dbc);
                 dbc.close();
-            }catch(Exception e){
+            } catch (Exception e) {
                 String msg = "Unexpected error in controller for 'review/insert'... " +
                         e.getMessage();
                 System.out.println(msg);
@@ -102,5 +100,18 @@ public class ReviewController {
 
         return Json.toJson(errorData);
     }
-    
+
+    @RequestMapping(value = "/review/delete", params = { "reviewId" }, produces = "application/json")
+    public String delete(@RequestParam("reviewId") String deleteReviewId) {
+        StringData sd = new StringData();
+        if (deleteReviewId == null) {
+            sd.errorMsg = "Error: URL must be review/delete?reviewId=xx, where " +
+                    "xx is the review_id of the web_user record to be deleted.";
+        } else {
+            DbConn dbc = new DbConn();
+            sd = DbMods.delete(dbc, deleteReviewId);
+            dbc.close();
+        }
+        return Json.toJson(sd);
+    }
 }

@@ -218,4 +218,40 @@ public class DbMods {
         return errorMsgs;
     }//update
 
+    public static StringData delete(DbConn dbc, String reviewId){
+        StringData sd = new StringData();
+
+        if(reviewId == null){
+            sd.errorMsg = "models.review.DbMods.delete: " +
+                    "cannot delete web_user record because 'reviewId' is null";
+            return sd;
+        }
+
+        sd.errorMsg = dbc.getErr();
+        if(sd.errorMsg.length() > 0){
+            return sd;
+        }
+
+        try{
+            //perform delete
+            String sql = "DELETE FROM review WHERE review_id = ?";
+            
+            PreparedStatement pStatement = dbc.getConn().prepareStatement(sql);
+
+            pStatement.setString(1, reviewId);
+
+            int numRowsDeleted = pStatement.executeUpdate();
+
+            if(numRowsDeleted == 0){
+                sd.errorMsg = "Record not deleted - there was no record with review_id " + reviewId;
+            }else if (numRowsDeleted > 1) {
+                sd.errorMsg = "Programmer Error: > 1 record deleted. Did you forget the WHERE clause?";
+            }
+        }catch (Exception e){
+            sd.errorMsg = "Exception thrown in models.review.DbMods.delete(): " + e.getMessage();
+        }
+
+        return sd;
+    }
+
 }

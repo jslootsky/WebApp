@@ -279,7 +279,7 @@ public class DbMods {
         StringData sd = new StringData();
 
         if (userId == null) {
-            sd.errorMsg = "modelwebUser.DbMods.delete: " +
+            sd.errorMsg = "modelswebUser.DbMods.delete: " +
                     "cannot delete web_user record because 'userId' is null";
             return sd;
         }

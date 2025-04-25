@@ -196,8 +196,7 @@ public class WebUserController {
                 System.out.println("*** Ready to call DbMods.getById");
                 sd = DbMods.getById(dbc, userId);
             }
-            dbc.close(); // EVERY code path that opens a db connection must close it
-            // (or else you have a database connection leak).
+            dbc.close(); 
         }
         return Json.toJson(sd);
     }
@@ -211,8 +210,7 @@ public class WebUserController {
         } else {
             DbConn dbc = new DbConn();
             sd = DbMods.delete(dbc, deleteUserId);
-            dbc.close(); // EVERY code path that opens a db connection must close it
-            // (or else you have a database connection leak).
+            dbc.close(); 
         }
         return Json.toJson(sd);
     }

@@ -274,4 +274,44 @@ public class DbMods {
         return sd;
     } // getById
 
+    public static StringData delete(DbConn dbc, String userId) {
+
+        StringData sd = new StringData();
+
+        if (userId == null) {
+            sd.errorMsg = "modelwebUser.DbMods.delete: " +
+                    "cannot delete web_user record because 'userId' is null";
+            return sd;
+        }
+
+        sd.errorMsg = dbc.getErr();
+        if (sd.errorMsg.length() > 0) { // cannot proceed, db error
+            return sd;
+        }
+
+        try {
+
+            String sql = "DELETE FROM web_user WHERE web_user_id = ?";
+
+            // Compile the SQL (checking for syntax errors against the connected DB).
+            PreparedStatement pStatement = dbc.getConn().prepareStatement(sql);
+
+            // Encode user data into the prepared statement.
+            pStatement.setString(1, userId);
+
+            int numRowsDeleted = pStatement.executeUpdate();
+
+            if (numRowsDeleted == 0) {
+                sd.errorMsg = "Record not deleted - there was no record with web_user_id " + userId;
+            } else if (numRowsDeleted > 1) {
+                sd.errorMsg = "Programmer Error: > 1 record deleted. Did you forget the WHERE clause?";
+            }
+
+        } catch (Exception e) {
+            sd.errorMsg = "Exception thrown in model.webUser.DbMods.delete(): " + e.getMessage();
+        }
+
+        return sd;
+    }
+
 }

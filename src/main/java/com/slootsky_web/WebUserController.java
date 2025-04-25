@@ -202,4 +202,19 @@ public class WebUserController {
         return Json.toJson(sd);
     }
 
+    @RequestMapping(value = "/webUser/delete", params = {"userId" }, produces = "application/json")
+    public String delete(@RequestParam("userId") String deleteUserId) {
+        StringData sd = new StringData();
+        if (deleteUserId == null) {
+            sd.errorMsg = "Error: URL must be user/getById?userId=xx, where " +
+                    "xx is the web_user_id of the web_user record to be deleted.";
+        } else {
+            DbConn dbc = new DbConn();
+            sd = DbMods.delete(dbc, deleteUserId);
+            dbc.close(); // EVERY code path that opens a db connection must close it
+            // (or else you have a database connection leak).
+        }
+        return Json.toJson(sd);
+    }
+
 }

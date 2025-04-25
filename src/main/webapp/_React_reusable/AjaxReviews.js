@@ -15,6 +15,26 @@ const AjaxReviews = (url) => {
     const [filterInput, setFilterInput] = React.useState("");
     //state to hold the filter input value 
 
+    const handleDelete = (reviewId) => {
+        //confirm
+        if (!window.confirm('Really delete review ' + reviewId + '?')) return;
+
+        ajax_alt(
+            `/review/delete?reviewId=${encodeURIComponent(reviewId)}`,
+            (res) => {
+                if (res.errorMsg) {
+                    setError(res.errorMsg);
+                } else {
+                    // 1c) remove from both items & displayedList
+                    const next = items.filter(r => r.reviewId !== reviewId);
+                    setItems(next);
+                    setDisplayedList(next);
+                }
+            },
+            (msg) => setError(msg)
+        );
+    };
+
     React.useEffect(() => {
         ajax_alt(
             url, // URL for AJAX call to invoke
@@ -102,6 +122,8 @@ const AjaxReviews = (url) => {
             <table>
                 <thead>
                     <tr>
+                        <th></th> {/* column for the delete button */}
+
                         <th></th> {/* column for the update button */}
 
                         <th onClick={() => sortByProp("reviewId", "number")}>
@@ -150,6 +172,15 @@ const AjaxReviews = (url) => {
                     {
                         displayedList.map((item, index) =>
                             <tr key={item.reviewId}>
+                                <td>
+                                    {/* attach onClick directly to the img */}
+                                    <img
+                                        src="icons/delete.png"
+                                        className="clickLink"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => handleDelete(item.reviewId)}
+                                    />
+                                </td>
                                 <td>
                                     <a href={'#/reviewUpdate/:' + item.reviewId}><img src="icons/update.png" className="clickLink" /></a>
                                 </td>
